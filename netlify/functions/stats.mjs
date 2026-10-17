@@ -2,6 +2,7 @@
 // independently; anything that fails is simply left out, and the site
 // falls back to the static numbers in src/data/portfolio.js.
 import { platforms } from "../../src/data/portfolio.js";
+import { readSettings } from "../lib/store.mjs";
 
 const UA = { "User-Agent": "Mozilla/5.0 (portfolio-stats)" };
 const get = (url, opts = {}) =>
@@ -62,8 +63,11 @@ const fetchers = {
 const clean = (o) => Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined && v !== null && !Number.isNaN(v)));
 
 export default async () => {
-  const keys = Object.keys(fetchers).filter((k) => platforms[k]?.username);
-  const results = await Promise.allSettled(keys.map((k) => fetchers[k](platforms[k].username)));
+  // usernames saved from the admin panel win over the ones in the data file
+  const saved = (await readSettings()).usernames || {};
+  const user = (k) => saved[k] || platforms[k]?.username;
+  const keys = Object.keys(fetchers).filter(user);
+  const results = await Promise.allSettled(keys.map((k) => fetchers[k](user(k))));
   const body = {};
   results.forEach((r, i) => {
     if (r.status === "fulfilled") body[keys[i]] = clean(r.value);
@@ -73,6 +77,7 @@ export default async () => {
     headers: {
       "Cache-Control": "public, max-age=600",
       "Netlify-CDN-Cache-Control": "public, durable, s-maxage=21600, stale-while-revalidate=86400",
+      "Netlify-Cache-Tag": "stats",
     },
   });
 };

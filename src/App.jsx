@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { SettingsProvider } from "./hooks/settings.jsx";
 import { MotionConfig } from "framer-motion";
 import { device } from "./hooks/device.js";
 import Loader from "./components/Loader.jsx";
@@ -13,8 +14,18 @@ import Coding from "./components/Coding.jsx";
 import Certifications from "./components/Certifications.jsx";
 import Contact from "./components/Contact.jsx";
 
+const Admin = lazy(() => import("./components/Admin.jsx"));
+const isAdminHash = () => window.location.hash === "#admin";
+
 export default function App() {
-  const [loaded, setLoaded] = useState(device.reduced);
+  const [loaded, setLoaded] = useState(device.reduced || isAdminHash());
+  const [admin, setAdmin] = useState(isAdminHash);
+  useEffect(() => {
+    const onHash = () => setAdmin(isAdminHash());
+    addEventListener("hashchange", onHash);
+    return () => removeEventListener("hashchange", onHash);
+  }, []);
+  const closeAdmin = () => { history.replaceState(null, "", location.pathname); setAdmin(false); };
 
   // Lenis smooth scroll + GSAP ScrollTrigger section transitions (loaded lazily)
   useEffect(() => {
@@ -44,6 +55,7 @@ export default function App() {
   }, [loaded]);
 
   return (
+    <SettingsProvider>
     <MotionConfig reducedMotion="user">
       {!loaded && <Loader onDone={() => setLoaded(true)} />}
       {!device.mobile && !device.reduced && <Cursor />}
@@ -61,9 +73,11 @@ export default function App() {
         </main>
         <footer className="footer">
           <span>&lt;/&gt; Crafted with passion by Prakhar Porwal</span>
-          <span>© {new Date().getFullYear()}</span>
+          <span>© {new Date().getFullYear()} · <a href="#admin" className="admin-link">Admin</a></span>
         </footer>
       </div>
+      {admin && <Suspense fallback={null}><Admin onClose={closeAdmin} /></Suspense>}
     </MotionConfig>
+    </SettingsProvider>
   );
 }

@@ -5,6 +5,7 @@ import Counter from "./Counter.jsx";
 import { Tilt } from "./Projects.jsx";
 import { platforms } from "../data/portfolio.js";
 import { useStats } from "../hooks/useStats.js";
+import { useSettings } from "../hooks/settings.jsx";
 
 const RINGS = [["easy", "Easy", "#22c55e"], ["medium", "Medium", "#f59e0b"], ["hard", "Hard", "#ef4444"]];
 const LOGO = { leetcode: "LC", gfg: "GfG", codechef: "CC", codeforces: "CF", hackerrank: "HR", github: "GH" };
@@ -33,7 +34,8 @@ const statLines = (k, s) => ({
 })[k];
 
 export default function Coding() {
-  const { stats, live } = useStats();
+  const { usernames } = useSettings();
+  const { stats, live } = useStats(usernames);
   const total = ["leetcode", "gfg", "codechef", "codeforces", "hackerrank"].reduce((n, k) => n + (Number(stats[k]?.solved) || 0), 0);
   const lc = stats.leetcode;
   return (
@@ -53,10 +55,10 @@ export default function Coding() {
         {Object.entries(platforms).map(([k, p], i) => (
           <motion.div key={k} initial={{ opacity: 0, y: 50, rotateX: -30 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.6, delay: (i % 3) * 0.1 }}>
             <Tilt className="platform glass" max={8}>
-              <div className="platform__head"><span className="logo" style={{ "--c": p.color }}>{LOGO[k]}</span><div><b>{p.name}</b><small>{p.username ? `@${p.username}` : "Profile coming soon"}</small></div></div>
+              <div className="platform__head"><span className="logo" style={{ "--c": p.color }}>{LOGO[k]}</span><div><b>{p.name}</b><small>{usernames[k] ? `@${usernames[k]}` : "Profile coming soon"}</small></div></div>
               <dl>{statLines(k, stats[k]).map(([a, b]) => <div key={a}><dt>{a}</dt><dd>{typeof b === "number" ? <Counter value={b} /> : b}</dd></div>)}</dl>
-              {p.username
-                ? <a className="btn btn--ghost btn--sm" href={p.url(p.username)} target="_blank" rel="noreferrer">Visit Profile <Icon name="external" size={15} /></a>
+              {usernames[k]
+                ? <a className="btn btn--ghost btn--sm" href={p.url(usernames[k])} target="_blank" rel="noreferrer">Visit Profile <Icon name="external" size={15} /></a>
                 : <span className="btn btn--ghost btn--sm btn--disabled" aria-disabled>Visit Profile</span>}
             </Tilt>
           </motion.div>

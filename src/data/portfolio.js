@@ -1,6 +1,8 @@
 // ─────────────────────────────────────────────────────────────
 //  Edit this one file to update everything on the site.
 //  Items marked TODO are placeholders — replace them with your own.
+//  Usernames, LinkedIn/X links, email and resume can ALSO be set without
+//  code from the admin panel on the live site: open  /#admin
 // ─────────────────────────────────────────────────────────────
 
 export const profile = {
@@ -10,15 +12,14 @@ export const profile = {
   tagline:
     "I build modern web applications and explore innovative technologies to create meaningful solutions.",
   location: "Bhopal, India",
-  email: "prakharporwal@example.com", // TODO: your public email
+  email: "prakharporwal518@gmail.com",
   education: "BTech CSE (2nd Year)",
   status: "Open to Internship",
-  resume: "/resume.pdf", // TODO: put your resume at public/resume.pdf
   quote: "Building things that make an impact.",
   socials: {
     linkedin: "https://www.linkedin.com/", // TODO
     github: "https://github.com/prakharporwal518-collab",
-    email: "mailto:prakharporwal@example.com", // TODO
+    email: "mailto:prakharporwal518@gmail.com",
     x: "https://x.com/", // TODO
   },
 };

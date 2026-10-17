@@ -5,11 +5,13 @@ import Section from "./Section.jsx";
 import Lazy3D from "./Lazy3D.jsx";
 import { device } from "../hooks/device.js";
 import { profile } from "../data/portfolio.js";
+import { useSettings } from "../hooks/settings.jsx";
 
 const Globe = lazy(() => import("./three/Globe.jsx"));
 const encode = (d) => new URLSearchParams(d).toString();
 
 export default function Contact() {
+  const { email, socials } = useSettings();
   const [state, setState] = useState("idle"); // idle | sending | sent | error
   const submit = async (e) => {
     e.preventDefault();
@@ -39,7 +41,7 @@ export default function Contact() {
           <button className="btn btn--primary" disabled={state === "sending"}>{state === "sending" ? "Sending…" : <>Send Message <Icon name="send" /></>}</button>
           <p className="form__msg" role="status">
             {state === "sent" && "✅ Thanks! Your message was sent — I’ll get back to you soon."}
-            {state === "error" && <>⚠️ Couldn’t send right now. Please email me at <a href={profile.socials.email}>{profile.email}</a>.</>}
+            {state === "error" && <>⚠️ Couldn’t send right now. Please email me at <a href={socials.email}>{email}</a>.</>}
           </p>
         </motion.form>
       </div>

@@ -6,13 +6,15 @@ import Terminal from "./Terminal.jsx";
 import { device } from "../hooks/device.js";
 import { profile, skills, techStack } from "../data/portfolio.js";
 import { scrollToId } from "./scroll.js";
+import { useSettings } from "../hooks/settings.jsx";
 
 const HeroScene = lazy(() => import("./three/HeroScene.jsx"));
 const up = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.2, 0.7, 0.2, 1] } } };
 const color = (n) => skills.find((s) => s.name === n) || { short: n, color: "#a5b4fc" };
 
 export default function Hero({ ready }) {
-  const info = [["pin", "Location", profile.location], ["mail", "Email", profile.email], ["cap", "Education", profile.education], ["briefcase", "Status", profile.status]];
+  const { email, socials: links, hasResume } = useSettings();
+  const info = [["pin", "Location", profile.location], ["mail", "Email", email], ["cap", "Education", profile.education], ["briefcase", "Status", profile.status]];
   const socials = [["linkedin", "LinkedIn"], ["github", "GitHub"], ["email", "Email", "mail"], ["x", "X"]];
   return (
     <section id="home" className="hero">
@@ -28,7 +30,9 @@ export default function Hero({ ready }) {
             <motion.p variants={up} className="lead">{profile.tagline}</motion.p>
             <motion.div variants={up} className="cta">
               <a className="btn btn--primary" href="#projects" onClick={(e) => { e.preventDefault(); scrollToId("projects"); }}>View My Projects <Icon name="arrow" /></a>
-              <a className="btn btn--ghost" href={profile.resume} download><Icon name="download" /> Download Resume</a>
+              {hasResume
+                ? <a className="btn btn--ghost" href="/resume.pdf" download="Prakhar-Porwal-Resume.pdf"><Icon name="download" /> Download Resume</a>
+                : <span className="btn btn--ghost btn--disabled" title="Resume coming soon"><Icon name="download" /> Resume coming soon</span>}
             </motion.div>
           </motion.div>
           <div className="code-float glass" aria-hidden>
@@ -55,7 +59,7 @@ export default function Hero({ ready }) {
             <h3>Connect With Me</h3>
             <div className="socials">
               {socials.map(([k, label, ic]) => (
-                <a key={k} href={profile.socials[k]} target={k === "email" ? undefined : "_blank"} rel="noreferrer" aria-label={label}><Icon name={ic || k} /></a>
+                <a key={k} href={links[k]} target={k === "email" ? undefined : "_blank"} rel="noreferrer" aria-label={label}><Icon name={ic || k} /></a>
               ))}
             </div>
           </div>

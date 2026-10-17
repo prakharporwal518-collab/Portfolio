@@ -3,6 +3,7 @@ import Icon from "./Icon.jsx";
 import { profile, skills, projects } from "../data/portfolio.js";
 import { NAV } from "./Sidebar.jsx";
 import { scrollToId } from "./scroll.js";
+import { useSettings } from "../hooks/settings.jsx";
 
 const WELCOME = ["Welcome to my portfolio!", "Explore my projects, skills and experience.", "Type 'help' to see commands. 🚀"];
 const cmds = {
@@ -10,7 +11,7 @@ const cmds = {
   about: () => [`${profile.firstName} ${profile.lastName} — ${profile.roles.join(", ")}.`, profile.tagline],
   skills: () => [skills.map((s) => s.name).join(" · ")],
   projects: () => projects.map((p, i) => `${i + 1}. ${p.title}`),
-  contact: () => [`Email: ${profile.email}`, "Or use the contact form — 'goto contact'."],
+  contact: (_, s) => [`Email: ${s.email}`, "Or use the contact form — 'goto contact'."],
   goto: (arg) => {
     const hit = NAV.find(([id, label]) => [id, label.toLowerCase()].includes(arg));
     return hit && scrollToId(hit[0]) ? [`Navigating to ${hit[1]}…`] : [`Unknown section. Try: ${NAV.map((n) => n[0]).join(", ")}`];
@@ -18,6 +19,7 @@ const cmds = {
 };
 
 export default function Terminal() {
+  const settings = useSettings();
   const [lines, setLines] = useState(WELCOME.map((t) => ({ t })));
   const [val, setVal] = useState("");
   const body = useRef();
@@ -28,7 +30,7 @@ export default function Terminal() {
     setVal("");
     if (!cmd) return;
     if (cmd === "clear") return setLines([]);
-    const out = cmds[cmd] ? cmds[cmd](rest.join(" ")) : [`command not found: ${cmd} — try 'help'`];
+    const out = cmds[cmd] ? cmds[cmd](rest.join(" "), settings) : [`command not found: ${cmd} — try 'help'`];
     setLines((l) => [...l, { t: val, cmd: true }, ...out.map((t) => ({ t }))]);
   };
   return (
