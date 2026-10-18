@@ -25,6 +25,7 @@ export default function App() {
     addEventListener("hashchange", onHash);
     return () => removeEventListener("hashchange", onHash);
   }, []);
+  const openAdmin = (e) => { e.preventDefault(); history.replaceState(null, "", "#admin"); setAdmin(true); };
   const closeAdmin = () => { history.replaceState(null, "", location.pathname); setAdmin(false); };
 
   // Lenis smooth scroll + GSAP ScrollTrigger section transitions (loaded lazily)
@@ -59,7 +60,7 @@ export default function App() {
     <MotionConfig reducedMotion="user">
       {!loaded && <Loader onDone={() => setLoaded(true)} />}
       {!device.mobile && !device.reduced && <Cursor />}
-      <Sidebar />
+      <Sidebar onAdmin={openAdmin} />
       <div className="main">
         <Topbar />
         <main>
@@ -73,7 +74,7 @@ export default function App() {
         </main>
         <footer className="footer">
           <span>&lt;/&gt; Crafted with passion by Prakhar Porwal</span>
-          <span>© {new Date().getFullYear()} · <a href="#admin" className="admin-link">Admin</a></span>
+          <span>© {new Date().getFullYear()} · <a href="#admin" className="admin-link" onClick={openAdmin}>Admin</a></span>
         </footer>
       </div>
       {admin && <Suspense fallback={null}><Admin onClose={closeAdmin} /></Suspense>}
