@@ -8,7 +8,7 @@ export const NAV = [
   ["coding", "Coding", "chart"], ["certifications", "Certifications", "award"], ["achievements", "Achievements", "trophy"], ["contact", "Contact", "mail"],
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ onAdmin }) {
   const [active, setActive] = useState("home");
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function Sidebar() {
           <p>“{profile.quote}”</p>
           <a href="#contact" onClick={(e) => go(e, "contact")} aria-label="Contact me"><Icon name="arrow" /></a>
         </div>
-        <small className="crafted">&lt;/&gt; Crafted with passion <span>♥</span></small>
+        <small className="crafted">&lt;/&gt; Crafted with passion <span>♥</span><a href="#admin" onClick={(e) => { setOpen(false); onAdmin(e); }} className="admin-lock" aria-label="Admin panel" title="Admin">🔒</a></small>
       </aside>
     </>
   );

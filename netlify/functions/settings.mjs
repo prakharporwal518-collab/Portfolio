@@ -28,7 +28,7 @@ export default async (req) => {
     updatedAt: new Date().toISOString(),
   };
   await store().setJSON("settings", settings);
-  await purgeCache({ tags: ["settings", "stats"] }).catch((e) => console.warn("purge failed:", e.message));
+  await purgeCache({ tags: ["settings", "stats", "projects"] }).catch((e) => console.warn("purge failed:", e.message));
   return json({ ok: true, settings });
 };
 

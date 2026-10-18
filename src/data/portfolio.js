@@ -57,37 +57,60 @@ export const skills = [
 
 export const techStack = ["C++", "React", "JavaScript", "MySQL", "Node.js", "Git", "VS Code", "Figma"];
 
-// TODO: replace with your real projects
+// Your projects. The site also loads your public GitHub repos live, so:
+//  • a repo listed here uses this title/text/tags (live demo link is filled from
+//    the repo's "Website" field on GitHub if you leave `live` empty)
+//  • a new repo you push to GitHub appears automatically after these.
+// `repo` must match the GitHub repo name. Add a repo name to `hiddenRepos` to hide it.
 export const projects = [
   {
-    title: "3D Developer Portfolio",
-    text: "This site — React Three Fiber scenes, GSAP scroll effects, live coding stats via a Netlify function.",
-    tags: ["React", "Three.js", "GSAP", "Netlify"],
-    github: "https://github.com/prakharporwal518-collab/Portfolio",
-    live: "",
+    repo: "Medreach", title: "Medreach",
+    text: "AI emergency-response platform for public healthcare: citizens report emergencies, hospitals coordinate beds and ambulances, plus a 108 control-room simulator. Built for the MPOnline Idea & Innovation Hackathon 2026.",
+    tags: ["JavaScript", "Node.js", "AI", "Healthcare"], live: "https://medreach-2.onrender.com",
   },
   {
-    title: "DSA Visualizer",
-    text: "Step-by-step animations of sorting, graph and tree algorithms to make DSA concepts click.",
-    tags: ["JavaScript", "Canvas", "DSA"],
-    github: "",
-    live: "",
+    repo: "Doctrace--AI", title: "DocTrace AI",
+    text: "Reads invoices, contracts and purchase orders and extracts deadlines, obligations and anomalies — every output traced back to the exact page and line. Zero Origin Hackathon 2026.",
+    tags: ["React", "TypeScript", "Supabase", "Gemini"], live: "https://doctrace-ai.netlify.app",
   },
   {
-    title: "Task Manager API",
-    text: "REST API with authentication, CRUD and MongoDB — built to learn backend and system design basics.",
-    tags: ["Node.js", "Express", "MongoDB"],
-    github: "",
-    live: "",
+    repo: "Bolo-Yojana-", title: "Bolo Yojana",
+    text: "Voice-first, multilingual (Hindi/Hinglish) AI assistant that helps rural citizens understand government schemes, check eligibility and know which documents to carry.",
+    tags: ["React", "Python", "RAG", "Voice AI"], live: "",
   },
   {
-    title: "ML Movie Recommender",
-    text: "Content-based recommendation system using cosine similarity, with a small web UI.",
-    tags: ["Python", "scikit-learn", "ML"],
-    github: "",
-    live: "",
+    repo: "Adaptive-Context-Aware-Code-API-Guardrails", title: "GuardX — Code & API Guardrails",
+    text: "AI-assisted security layer that scores risky code and API actions from their context (who, device, time, auth freshness) instead of a fixed rule table.",
+    tags: ["JavaScript", "Security", "AI"], live: "https://prakharporwal518-collab.github.io/Adaptive-Context-Aware-Code-API-Guardrails/",
   },
-];
+  {
+    repo: "Multi-Camera-3D-Scene-Understanding", title: "Multi-Camera 3D Scene Understanding",
+    text: "Calibrates 2–8 cameras into one world frame, estimates depth, fuses a 3D point cloud, tracks objects and builds a scene graph — with a web workspace for every stage.",
+    tags: ["Python", "Computer Vision", "TypeScript", "3D"], live: "",
+  },
+  {
+    repo: "HR-RAG-PROJECT-", title: "HR Assist — HR Policy RAG Chatbot",
+    text: "Employees ask HR questions in plain English and get answers only from the policy PDFs they're allowed to see, with page citations. Hybrid BM25 + ChromaDB retrieval.",
+    tags: ["Python", "RAG", "ChromaDB", "LLM"], live: "",
+  },
+  {
+    repo: "Expense-tracking-system", title: "FinTrack — Expense Tracker",
+    text: "Full-stack expense tracker that forecasts next month, finds forgotten subscriptions, flags unusual spending and settles group debts in the fewest transfers.",
+    tags: ["Node.js", "Express", "SQLite", "JavaScript"], live: "",
+  },
+  {
+    repo: "Movie-recommendation-system", title: "CineMatch — Movie Recommender",
+    text: "Content-based movie recommender using TF-IDF and cosine similarity over plot, genre, cast and keywords, with a scroll-animated 3D web UI.",
+    tags: ["Python", "scikit-learn", "ML"], live: "",
+  },
+  {
+    repo: "Attendance-Tracking-system", title: "Attendance Tracking System",
+    text: "Web app for colleges: teachers mark a class in one pass, students see their attendance percentage, admins manage people, courses and rosters.",
+    tags: ["JavaScript", "Node.js", "SQL"], live: "",
+  },
+].map((p) => ({ ...p, github: `https://github.com/prakharporwal518-collab/${p.repo}` }));
+
+export const hiddenRepos = ["Portfolio"];
 
 // ── Coding platforms ─────────────────────────────────────────
 // username: leave "" to skip live fetching for that platform.
