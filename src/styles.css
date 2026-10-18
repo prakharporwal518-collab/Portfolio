@@ -6,7 +6,7 @@
   color-scheme: dark;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: auto; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: auto; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 body {
@@ -76,7 +76,7 @@ html.has-cursor input, html.has-cursor textarea { cursor: text; }
 .quote a { justify-self: end; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; background: rgba(59, 130, 246, .2); }
 .crafted { color: var(--muted); padding: 0 .5rem; } .crafted span { color: #f472b6; }
 .menu-btn { display: none; }
-.main { margin-left: calc(var(--side) + 32px); padding: 16px 16px 0 0; min-width: 0; }
+.main { margin-left: calc(var(--side) + 32px); padding: 16px 16px 0 0; min-width: 0; overflow-x: clip; }
 .topbar { display: flex; gap: 1rem; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .search { flex: 1; max-width: 520px; display: flex; align-items: center; gap: .6rem; padding: .65rem 1rem; color: var(--muted); border-radius: 14px; transition: border-color .2s; }
 .search input { flex: 1; background: none; border: 0; outline: 0; min-width: 0; }
